@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CalendarBee Mobile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+:root {
+  --yellow: #f7c948;
+  --yellow-dark: #e0a800;
+  --cream: #fff9e6;
+  --charcoal: #2f2f2f;
+  --gray: #777;
+}
+
+/* RESET */
+* { box-sizing: border-box; }
+body {
+  margin: 0;
+  background: var(--cream);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  height: 100vh;
+  overflow: hidden;
+}
+
+/* APP LAYOUT */
+.app {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* SCREENS */
+.screen {
+  flex: 1;
+  overflow-y: auto;
+  padding: 18px 16px 10px;
+  display: none;
+}
+.screen.active {
+  display: block;
+}
+
+/* HEADER */
+.header {
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-bottom: 6px;
+  color: var(--charcoal);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.header span.bee {
+  font-size: 1.8rem;
+}
+.subheader {
+  font-size: 0.95rem;
+  color: var(--gray);
+  margin-bottom: 14px;
+}
+
+/* TEXT / LABELS */
+label {
+  font-weight: 600;
+  margin-top: 12px;
+  display: block;
+  font-size: 0.9rem;
+}
+input, select, textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 12px;
+  border: 1px solid #ccc;
+  margin-top: 5px;
+  font-size: 0.95rem;
+  background: #fff;
+}
+
+/* BUTTONS */
+button {
+  width: 100%;
+  padding: 12px;
+  margin-top: 14px;
+  border: none;
+  border-radius: 999px;
+  background: var(--yellow);
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  color: #2f1b00;
+  box-shadow: 0 3px 8px rgba(0,0,0,0.12);
+  transition: transform 0.08s ease, box-shadow 0.08s ease, background 0.12s ease;
+}
+button:hover {
+  background: var(--yellow-dark);
+}
+button:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 4px rgba(0,0,0,0.18);
+}
+.reset-btn {
+  background: #f1f1f1;
+  color: var(--charcoal);
+  box-shadow: none;
+}
+
+/* SUMMARY BOX */
+.summary {
+  background: #fff3c4;
+  padding: 12px;
+  border-radius: 12px;
+  margin-top: 14px;
+  font-size: 0.9rem;
+}
+
+/* SETTINGS */
+.settings-section-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #555;
+  margin: 10px 0 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.setting-item {
+  background: #fff;
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.setting-label {
+  font-size: 0.9rem;
+  color: var(--charcoal);
+}
+.setting-toggle {
+  transform: scale(1.1);
+}
+
+/* MORE TAB */
+.more-item {
+  background: #fff;
+  padding: 10px 12px;
+  border-radius: 12px;
+  margin-bottom: 8px;
+  font-size: 0.9rem;
+}
+.more-title {
+  font-weight: 600;
+  margin-bottom: 4px;
+}
+
+/* BOTTOM NAV – MIXED STYLE */
+.navbar {
+  height: 64px;
+  background: #ffffff;
+  border-top: 1px solid #e5e5e5;
+  display: flex;
+  box-shadow: 0 -3px 10px rgba(0,0,0,0.06);
+}
+.nav-btn {
+  flex: 1;
+  text-align: center;
+  padding-top: 6px;
+  font-size: 0.75rem;
+  color: var(--gray);
+  cursor: pointer;
+  position: relative;
+}
+.nav-btn-inner {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  transition: background 0.15s ease, color 0.15s ease, transform 0.08s ease;
+}
+.nav-icon {
+  font-size: 1.3rem;
+}
+.nav-label {
+  font-size: 0.75rem;
+}
+.nav-btn.active .nav-btn-inner {
+  background: rgba(247, 201, 72, 0.18);
+  color: var(--yellow-dark);
+  transform: translateY(-1px);
+}
+.nav-btn.active::after {
+  content: "";
+  position: absolute;
+  bottom: 4px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 26px;
+  height: 4px;
+  border-radius: 999px;
+  background: var(--yellow-dark);
+}
+
+/* SMALL DEVICES */
+@media (max-width: 400px) {
+  .header { font-size: 1.4rem; }
+  .nav-icon { font-size: 1.2rem; }
+}
+</style>
+</head>
+
+<body>
+<div class="app">
+
+  <!-- HOME -->
+  <div id="homeScreen" class="screen active">
+    <div class="header"><span class="bee">🐝</span>CalendarBee</div>
+    <div class="subheader">
+      Welcome to your hive. Use the tabs below to manage your profile, tweak settings, and learn more.
+    </div>
+    <p style="font-size:0.95rem; color:#555; margin-top:6px;">
+      This is a local‑only experience: everything you set here stays on this device. No sign‑in, no account, just you and your hive.
+    </p>
+  </div>
+
+  <!-- PROFILE -->
+  <div id="profileScreen" class="screen">
+    <div class="header"><span class="bee">👤</span>Your profile</div>
+    <div class="subheader">Saved only in this browser. Change it anytime.</div>
+
+    <label for="nameInput">Name</label>
+    <input id="nameInput" type="text" placeholder="Your name">
+
+    <label for="focusInput">Focus</label>
+    <input id="focusInput" type="text" placeholder="Your current focus (e.g. Deep work, Health, Family)">
+
+    <label for="themeSelect">Theme mood</label>
+    <select id="themeSelect">
+      <option value="honey">Honey Calm</option>
+      <option value="focus">Focused Hive</option>
+      <option value="playful">Playful Buzz</option>
+    </select>
+
+    <button id="saveBtn">Save profile 🐝</button>
+    <button class="reset-btn" id="resetBtn">Reset profile</button>
+
+    <div class="summary" id="summaryBox">No profile saved yet.</div>
+  </div>
+
+  <!-- SETTINGS -->
+  <div id="settingsScreen" class="screen">
+    <div class="header"><span class="bee">⚙️</span>Settings</div>
+    <div class="subheader">Fifty little switches for your hive.</div>
+
+    <div id="settingsList"></div>
+  </div>
+
+  <!-- MORE -->
+  <div id="moreScreen" class="screen">
+    <div class="header"><span class="bee">🍯</span>More</div>
+    <div class="subheader">A bit about CalendarBee and your data.</div>
+
+    <div class="more-item">
+      <div class="more-title">About</div>
+      <div>CalendarBee is a tiny, bright, local‑only hive for your preferences and profile. No servers, no accounts.</div>
+    </div>
+
+    <div class="more-item">
+      <div class="more-title">Version</div>
+      <div>CalendarBee Mobile Shell · v0.1</div>
+    </div>
+
+    <div class="more-item">
+      <div class="more-title">Data storage</div>
+      <div>Your profile and settings are stored in this browser’s localStorage. Clearing site data will wipe them.</div>
+    </div>
+
+    <div class="more-item">
+      <div class="more-title">Export / Import (concept)</div>
+      <div>This shell doesn’t export yet, but you could later add JSON export/import for your hive data.</div>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <div class="navbar">
+    <div class="nav-btn active" data-screen="homeScreen">
+      <div class="nav-btn-inner">
+        <div class="nav-icon">🏠</div>
+        <div class="nav-label">Home</div>
+      </div>
+    </div>
+    <div class="nav-btn" data-screen="profileScreen">
+      <div class="nav-btn-inner">
+        <div class="nav-icon">👤</div>
+        <div class="nav-label">Profile</div>
+      </div>
+    </div>
+    <div class="nav-btn" data-screen="settingsScreen">
+      <div class="nav-btn-inner">
+        <div class="nav-icon">⚙️</div>
+        <div class="nav-label">Settings</div>
+      </div>
+    </div>
+    <div class="nav-btn" data-screen="moreScreen">
+      <div class="nav-btn-inner">
+        <div class="nav-icon">⋯</div>
+        <div class="nav-label">More</div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+/* NAVIGATION */
+const navButtons = document.querySelectorAll(".nav-btn");
+const screens = document.querySelectorAll(".screen");
+
+navButtons.forEach(btn => {
+  btn.onclick = () => {
+    navButtons.forEach(b => b.classList.remove("active"));
+    btn.classList.add("active");
+    screens.forEach(s => s.classList.remove("active"));
+    document.getElementById(btn.dataset.screen).classList.add("active");
+  };
+});
+
+/* PROFILE LOCALSTORAGE */
+const KEY_PROFILE = "calendarbee_profile_v2";
+const nameInput = document.getElementById("nameInput");
+const focusInput = document.getElementById("focusInput");
+const themeSelect = document.getElementById("themeSelect");
+const saveBtn = document.getElementById("saveBtn");
+const resetBtn = document.getElementById("resetBtn");
+const summaryBox = document.getElementById("summaryBox");
+
+function loadProfile() {
+  const saved = localStorage.getItem(KEY_PROFILE);
+  return saved ? JSON.parse(saved) : null;
+}
+
+function updateSummary() {
+  const profile = loadProfile();
+  if (!profile) {
+    summaryBox.textContent = "No profile saved yet.";
+    return;
+  }
+  summaryBox.innerHTML = `
+    <strong>Name:</strong> ${profile.name || "Not set"}<br>
+    <strong>Focus:</strong> ${profile.focus || "Not set"}<br>
+    <strong>Theme:</strong> ${profile.theme}
+  `;
+}
+
+function saveProfile() {
+  const profile = {
+    name: nameInput.value.trim(),
+    focus: focusInput.value.trim(),
+    theme: themeSelect.value
+  };
+  localStorage.setItem(KEY_PROFILE, JSON.stringify(profile));
+  updateSummary();
+}
+
+function resetProfile() {
+  localStorage.removeItem(KEY_PROFILE);
+  nameInput.value = "";
+  focusInput.value = "";
+  themeSelect.value = "honey";
+  updateSummary();
+}
+
+/* INIT PROFILE UI */
+const existingProfile = loadProfile();
+if (existingProfile) {
+  nameInput.value = existingProfile.name || "";
+  focusInput.value = existingProfile.focus || "";
+  themeSelect.value = existingProfile.theme || "honey";
+}
+updateSummary();
+
+saveBtn.onclick = saveProfile;
+resetBtn.onclick = resetProfile;
+
+/* SETTINGS – 50 FEATURES */
+const settingsList = document.getElementById("settingsList");
+const KEY_SETTINGS = "calendarbee_settings_v1";
+
+function loadSettings() {
+  const raw = localStorage.getItem(KEY_SETTINGS);
+  return raw ? JSON.parse(raw) : {};
+}
+function saveSettings(settings) {
+  localStorage.setItem(KEY_SETTINGS, JSON.stringify(settings));
+}
+
+const settingsState = loadSettings();
+
+const sections = [
+  { title: "Notifications", count: 10, prefix: "Notifications" },
+  { title: "Appearance", count: 10, prefix: "Appearance" },
+  { title: "Productivity", count: 10, prefix: "Productivity" },
+  { title: "Accessibility", count: 10, prefix: "Accessibility" },
+  { title: "Experimental", count: 10, prefix: "Experimental" }
+];
+
+let featureIndex = 1;
+sections.forEach(section => {
+  const sectionTitle = document.createElement("div");
+  sectionTitle.className = "settings-section-title";
+  sectionTitle.textContent = section.title;
+  settingsList.appendChild(sectionTitle);
+
+  for (let i = 0; i < section.count; i++) {
+    const key = `feature_${featureIndex}`;
+    const item = document.createElement("div");
+    item.className = "setting-item";
+
+    const label = document.createElement("div");
+    label.className = "setting-label";
+    label.textContent = `${section.prefix} feature ${featureIndex}`;
+
+    const toggle = document.createElement("input");
+    toggle.type = "checkbox";
+    toggle.className = "setting-toggle";
+    toggle.checked = !!settingsState[key];
+    toggle.addEventListener("change", () => {
+      settingsState[key] = toggle.checked;
+      saveSettings(settingsState);
+    });
+
+    item.appendChild(label);
+    item.appendChild(toggle);
+    settingsList.appendChild(item);
+
+    featureIndex++;
+  }
+});
+</script>
+</body>
+</html>
