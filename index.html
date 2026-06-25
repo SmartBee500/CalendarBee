@@ -1,0 +1,283 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>CalendarBee Mobile</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* THEME */
+:root {
+    --yellow: #f7c948;
+    --yellow-dark: #e0a800;
+    --cream: #fff9e6;
+    --charcoal: #2f2f2f;
+    --gray: #777;
+}
+
+/* RESET */
+body {
+    margin: 0;
+    background: var(--cream);
+    font-family: Arial, sans-serif;
+    height: 100vh;
+    overflow: hidden;
+}
+
+/* APP CONTAINER */
+.app {
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+/* SCREENS */
+.screen {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+    display: none;
+}
+.screen.active {
+    display: block;
+}
+
+/* HEADER */
+.header {
+    font-size: 1.6rem;
+    font-weight: bold;
+    margin-bottom: 10px;
+    color: var(--charcoal);
+}
+
+/* PROFILE INPUTS */
+label {
+    font-weight: bold;
+    margin-top: 12px;
+    display: block;
+}
+input, select {
+    width: 100%;
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-top: 5px;
+    font-size: 1rem;
+}
+
+/* BUTTONS */
+button {
+    width: 100%;
+    padding: 12px;
+    margin-top: 15px;
+    border: none;
+    border-radius: 10px;
+    background: var(--yellow);
+    font-size: 1rem;
+    font-weight: bold;
+    cursor: pointer;
+}
+button:hover {
+    background: var(--yellow-dark);
+}
+.reset-btn {
+    background: #eee;
+}
+
+/* SUMMARY BOX */
+.summary {
+    background: #fff3c4;
+    padding: 12px;
+    border-radius: 10px;
+    margin-top: 15px;
+}
+
+/* SETTINGS LIST */
+.setting-item {
+    background: #fff;
+    padding: 12px;
+    border-radius: 10px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.setting-item label {
+    margin: 0;
+}
+.setting-item input {
+    width: auto;
+}
+
+/* BOTTOM NAV */
+.navbar {
+    height: 60px;
+    background: #fff;
+    border-top: 2px solid #eee;
+    display: flex;
+}
+.nav-btn {
+    flex: 1;
+    text-align: center;
+    padding-top: 8px;
+    font-size: 0.9rem;
+    color: var(--gray);
+    cursor: pointer;
+}
+.nav-btn.active {
+    color: var(--yellow-dark);
+    font-weight: bold;
+}
+.nav-btn span {
+    display: block;
+    font-size: 1.4rem;
+}
+</style>
+</head>
+
+<body>
+
+<div class="app">
+
+    <!-- HOME SCREEN -->
+    <div id="homeScreen" class="screen active">
+        <div class="header">🐝 CalendarBee</div>
+        <p>Welcome to your hive. Use the tabs below to manage your profile and settings.</p>
+    </div>
+
+    <!-- PROFILE SCREEN -->
+    <div id="profileScreen" class="screen">
+        <div class="header">Your Profile</div>
+
+        <label>Name</label>
+        <input id="nameInput" type="text" placeholder="Your name">
+
+        <label>Focus</label>
+        <input id="focusInput" type="text" placeholder="Your monthly focus">
+
+        <label>Theme</label>
+        <select id="themeSelect">
+            <option value="honey">Honey Calm</option>
+            <option value="focus">Focused Hive</option>
+            <option value="playful">Playful Buzz</option>
+        </select>
+
+        <button id="saveBtn">Save Profile</button>
+        <button class="reset-btn" id="resetBtn">Reset Profile</button>
+
+        <div class="summary" id="summaryBox">No profile saved yet.</div>
+    </div>
+
+    <!-- SETTINGS SCREEN -->
+    <div id="settingsScreen" class="screen">
+        <div class="header">Settings</div>
+
+        <div id="settingsList"></div>
+    </div>
+
+    <!-- NAVIGATION BAR -->
+    <div class="navbar">
+        <div class="nav-btn active" data-screen="homeScreen">
+            <span>🏠</span>Home
+        </div>
+        <div class="nav-btn" data-screen="profileScreen">
+            <span>👤</span>Profile
+        </div>
+        <div class="nav-btn" data-screen="settingsScreen">
+            <span>⚙️</span>Settings
+        </div>
+    </div>
+
+</div>
+
+<script>
+/* -------------------------
+   NAVIGATION
+-------------------------- */
+const navButtons = document.querySelectorAll(".nav-btn");
+const screens = document.querySelectorAll(".screen");
+
+navButtons.forEach(btn => {
+    btn.onclick = () => {
+        navButtons.forEach(b => b.classList.remove("active"));
+        btn.classList.add("active");
+
+        screens.forEach(s => s.classList.remove("active"));
+        document.getElementById(btn.dataset.screen).classList.add("active");
+    };
+});
+
+/* -------------------------
+   PROFILE STORAGE
+-------------------------- */
+const KEY = "calendarbee_profile";
+
+function loadProfile() {
+    const saved = localStorage.getItem(KEY);
+    return saved ? JSON.parse(saved) : null;
+}
+
+function saveProfile() {
+    const profile = {
+        name: nameInput.value.trim(),
+        focus: focusInput.value.trim(),
+        theme: themeSelect.value
+    };
+    localStorage.setItem(KEY, JSON.stringify(profile));
+    updateSummary();
+}
+
+function resetProfile() {
+    localStorage.removeItem(KEY);
+    nameInput.value = "";
+    focusInput.value = "";
+    themeSelect.value = "honey";
+    updateSummary();
+}
+
+function updateSummary() {
+    const box = document.getElementById("summaryBox");
+    const profile = loadProfile();
+
+    if (!profile) {
+        box.textContent = "No profile saved yet.";
+        return;
+    }
+
+    box.innerHTML = `
+        <strong>Name:</strong> ${profile.name || "Not set"}<br>
+        <strong>Focus:</strong> ${profile.focus || "Not set"}<br>
+        <strong>Theme:</strong> ${profile.theme}
+    `;
+}
+
+/* Load profile on startup */
+const saved = loadProfile();
+if (saved) {
+    nameInput.value = saved.name;
+    focusInput.value = saved.focus;
+    themeSelect.value = saved.theme;
+}
+updateSummary();
+
+saveBtn.onclick = saveProfile;
+resetBtn.onclick = resetProfile;
+
+/* -------------------------
+   SETTINGS (50 FEATURES)
+-------------------------- */
+const settingsList = document.getElementById("settingsList");
+
+for (let i = 1; i <= 50; i++) {
+    const item = document.createElement("div");
+    item.className = "setting-item";
+    item.innerHTML = `
+        <label>Feature ${i}</label>
+        <input type="checkbox">
+    `;
+    settingsList.appendChild(item);
+}
+</script>
+
+</body>
+</html>
