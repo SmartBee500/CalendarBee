@@ -1,24 +1,36 @@
 ```css
+/* =========================
+   CALENDARBEE PRO
+   style.css
+========================= */
+
 :root{
     --primary:#f4b400;
-    --primary-dark:#d99c00;
+    --primary-dark:#d89b00;
 
-    --background:#f6f8fc;
+    --background:#f6f7fb;
     --surface:#ffffff;
 
     --text:#1f2937;
-    --text-light:#6b7280;
+    --text-secondary:#6b7280;
 
     --border:#e5e7eb;
 
-    --danger:#ef4444;
-    --success:#22c55e;
-
-    --radius:22px;
+    --blue:#3b82f6;
+    --pink:#ec4899;
+    --green:#22c55e;
+    --orange:#f97316;
+    --purple:#8b5cf6;
 
     --shadow:
         0 4px 18px rgba(0,0,0,.08);
+
+    --radius:22px;
 }
+
+/* =========================
+   RESET
+========================= */
 
 *{
     margin:0;
@@ -30,9 +42,13 @@ html,
 body{
     width:100%;
     height:100%;
+}
+
+body{
     font-family:
         Inter,
         Segoe UI,
+        Arial,
         sans-serif;
 
     background:var(--background);
@@ -41,10 +57,9 @@ body{
     overflow:hidden;
 }
 
-button,
-input{
-    font:inherit;
-}
+/* =========================
+   APP
+========================= */
 
 .app{
     width:100%;
@@ -53,6 +68,10 @@ input{
     display:flex;
     flex-direction:column;
 }
+
+/* =========================
+   TOP BAR
+========================= */
 
 .topbar{
     height:70px;
@@ -65,12 +84,13 @@ input{
 
     background:var(--surface);
 
-    border-bottom:1px solid var(--border);
+    border-bottom:
+        1px solid var(--border);
 
-    z-index:50;
+    z-index:100;
 }
 
-.logo-section{
+.brand{
     display:flex;
     align-items:center;
     gap:12px;
@@ -85,48 +105,52 @@ input{
     background:var(--primary);
 }
 
-.app-name{
+.brand span{
     font-size:20px;
     font-weight:700;
 }
 
-.header-actions{
+.top-actions{
     display:flex;
-    gap:8px;
+    gap:10px;
 }
 
-.icon-btn{
+.icon-button{
     width:42px;
     height:42px;
 
     border:none;
-
     background:none;
 
-    cursor:pointer;
-
     border-radius:12px;
+
+    cursor:pointer;
 }
 
-.icon-btn:hover{
+.icon-button:hover{
     background:#f3f4f6;
 }
 
-.icon-btn img{
+.icon-button svg{
     width:22px;
     height:22px;
 }
+
+/* =========================
+   MAIN CONTENT
+========================= */
 
 .main-content{
     flex:1;
 
     overflow-y:auto;
 
-    padding-bottom:90px;
+    padding-bottom:100px;
 }
 
 .screen{
     display:none;
+
     padding:18px;
 }
 
@@ -134,20 +158,28 @@ input{
     display:block;
 }
 
+/* =========================
+   CARDS
+========================= */
+
 .card{
     background:var(--surface);
 
     border-radius:var(--radius);
 
-    box-shadow:var(--shadow);
-
     padding:18px;
 
     margin-bottom:16px;
+
+    box-shadow:var(--shadow);
 }
 
 .card h2{
     margin-bottom:12px;
+}
+
+.card h3{
+    margin-bottom:10px;
 }
 
 .welcome-card{
@@ -158,8 +190,12 @@ input{
             #f4b400
         );
 
-    color:#111827;
+    color:#1f2937;
 }
+
+/* =========================
+   PREVIEW ITEMS
+========================= */
 
 .event-preview{
     display:flex;
@@ -167,31 +203,162 @@ input{
     gap:12px;
 }
 
-.event-color{
-    width:14px;
-    height:14px;
+.event-dot{
+    width:12px;
+    height:12px;
+
     border-radius:50%;
 }
 
-.blue{
-    background:#3b82f6;
+.event-blue{
+    background:var(--blue);
 }
 
-.green{
-    background:#22c55e;
+.event-pink{
+    background:var(--pink);
 }
 
-.pink{
-    background:#ec4899;
+.event-green{
+    background:var(--green);
 }
 
-.orange{
-    background:#f97316;
+.event-orange{
+    background:var(--orange);
 }
 
-.purple{
-    background:#8b5cf6;
+.event-purple{
+    background:var(--purple);
 }
+
+/* =========================
+   CALENDAR
+========================= */
+
+.calendar-toolbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-bottom:16px;
+}
+
+.toolbar-btn{
+    width:42px;
+    height:42px;
+
+    border:none;
+
+    background:white;
+
+    border-radius:12px;
+
+    cursor:pointer;
+
+    box-shadow:
+        0 2px 8px rgba(0,0,0,.08);
+}
+
+.toolbar-btn svg{
+    width:18px;
+    height:18px;
+}
+
+.calendar-card{
+    background:white;
+
+    border-radius:24px;
+
+    overflow:hidden;
+
+    box-shadow:var(--shadow);
+}
+
+.weekdays{
+    display:grid;
+    grid-template-columns:
+        repeat(7,1fr);
+
+    border-bottom:
+        1px solid var(--border);
+
+    background:#fafafa;
+}
+
+.weekdays div{
+    text-align:center;
+
+    padding:14px 0;
+
+    font-size:12px;
+    font-weight:600;
+
+    color:var(--text-secondary);
+}
+
+#calendarGrid{
+    display:grid;
+
+    grid-template-columns:
+        repeat(7,1fr);
+
+    grid-auto-rows:95px;
+}
+
+.calendar-day{
+    position:relative;
+
+    border-right:
+        1px solid #f1f1f1;
+
+    border-bottom:
+        1px solid #f1f1f1;
+
+    padding:8px;
+
+    cursor:pointer;
+
+    transition:.15s;
+}
+
+.calendar-day:hover{
+    background:#fafafa;
+}
+
+.calendar-day.today{
+    background:#fff7d0;
+}
+
+.day-number{
+    font-size:14px;
+    font-weight:600;
+}
+
+.event-indicators{
+    position:absolute;
+
+    left:8px;
+    bottom:8px;
+
+    display:flex;
+    gap:4px;
+}
+
+.indicator{
+    width:8px;
+    height:8px;
+
+    border-radius:50%;
+}
+
+.blue{background:var(--blue);}
+.pink{background:var(--pink);}
+.green{background:var(--green);}
+.orange{background:var(--orange);}
+.purple{background:var(--purple);}
+
+/* =========================
+   PROFILE
+========================= */
 
 .profile-header{
     display:flex;
@@ -200,8 +367,8 @@ input{
 }
 
 #profileAvatar{
-    width:70px;
-    height:70px;
+    width:72px;
+    height:72px;
 
     border-radius:50%;
 
@@ -218,16 +385,15 @@ input{
 input{
     width:100%;
 
-    border:1px solid var(--border);
+    padding:14px;
+
+    border:
+        1px solid var(--border);
 
     border-radius:14px;
 
-    padding:14px;
-
     margin-top:8px;
     margin-bottom:14px;
-
-    background:white;
 }
 
 #saveProfileBtn{
@@ -237,20 +403,145 @@ input{
 
     background:var(--primary);
 
-    color:black;
-
     padding:14px;
 
     border-radius:14px;
 
-    cursor:pointer;
-
     font-weight:600;
+
+    cursor:pointer;
 }
 
 #saveProfileBtn:hover{
     background:var(--primary-dark);
 }
+
+/* =========================
+   SETTINGS
+========================= */
+
+.settings-layout{
+    display:flex;
+    gap:16px;
+}
+
+.settings-sidebar{
+    width:140px;
+
+    display:flex;
+    flex-direction:column;
+
+    gap:8px;
+}
+
+.settings-tab{
+    border:none;
+
+    background:white;
+
+    padding:12px;
+
+    border-radius:12px;
+
+    text-align:left;
+
+    cursor:pointer;
+}
+
+.settings-tab.active{
+    background:var(--primary);
+}
+
+.settings-panel{
+    flex:1;
+
+    background:white;
+
+    border-radius:22px;
+
+    padding:18px;
+
+    box-shadow:var(--shadow);
+}
+
+.setting-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    margin-top:18px;
+}
+
+/* =========================
+   CUSTOM TOGGLE
+========================= */
+
+.toggle{
+    width:52px;
+    height:28px;
+
+    background:#d1d5db;
+
+    border-radius:999px;
+
+    position:relative;
+
+    cursor:pointer;
+}
+
+.toggle-thumb{
+    position:absolute;
+
+    width:22px;
+    height:22px;
+
+    border-radius:50%;
+
+    background:white;
+
+    top:3px;
+    left:3px;
+
+    transition:.2s;
+}
+
+.toggle.active{
+    background:var(--primary);
+}
+
+.toggle.active .toggle-thumb{
+    left:27px;
+}
+
+/* =========================
+   CUSTOM DROPDOWN
+========================= */
+
+.custom-dropdown{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+
+    min-width:160px;
+
+    padding:12px 14px;
+
+    border:
+        1px solid var(--border);
+
+    border-radius:12px;
+
+    cursor:pointer;
+}
+
+.custom-dropdown svg{
+    width:18px;
+    height:18px;
+}
+
+/* =========================
+   FAB
+========================= */
 
 #fab{
     position:fixed;
@@ -275,10 +566,64 @@ input{
     z-index:100;
 }
 
-#fab img{
+#fab svg{
     width:24px;
     height:24px;
 }
+
+/* =========================
+   MODAL
+========================= */
+
+.modal{
+    position:fixed;
+
+    inset:0;
+
+    background:
+        rgba(0,0,0,.4);
+
+    display:flex;
+    align-items:center;
+    justify-content:center;
+
+    z-index:500;
+}
+
+.hidden{
+    display:none;
+}
+
+.modal-content{
+    width:90%;
+    max-width:420px;
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:20px;
+}
+
+.create-option{
+    width:100%;
+
+    border:none;
+
+    background:#f3f4f6;
+
+    padding:14px;
+
+    border-radius:14px;
+
+    margin-top:10px;
+
+    cursor:pointer;
+}
+
+/* =========================
+   BOTTOM NAV
+========================= */
 
 .bottom-nav{
     position:fixed;
@@ -291,11 +636,12 @@ input{
 
     background:white;
 
-    border-top:1px solid var(--border);
+    border-top:
+        1px solid var(--border);
 
     display:flex;
 
-    z-index:90;
+    z-index:200;
 }
 
 .nav-item{
@@ -308,21 +654,21 @@ input{
     display:flex;
     flex-direction:column;
 
-    align-items:center;
     justify-content:center;
+    align-items:center;
 
     gap:4px;
 
     cursor:pointer;
 
-    color:var(--text-light);
+    color:var(--text-secondary);
 }
 
 .nav-item.active{
     color:var(--primary-dark);
 }
 
-.nav-item img{
+.nav-item svg{
     width:22px;
     height:22px;
 }
@@ -331,12 +677,26 @@ input{
     font-size:12px;
 }
 
-@media(min-width:768px){
+/* =========================
+   MOBILE
+========================= */
 
-    .main-content{
-        max-width:1000px;
-        margin:auto;
+@media(max-width:700px){
+
+    .settings-layout{
+        flex-direction:column;
+    }
+
+    .settings-sidebar{
         width:100%;
+
+        flex-direction:row;
+
+        overflow:auto;
+    }
+
+    #calendarGrid{
+        grid-auto-rows:75px;
     }
 
 }
