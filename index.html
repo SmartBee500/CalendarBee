@@ -4,330 +4,447 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
     <title>CalendarBee Pro</title>
 
-    <!-- Styles -->
-    <link rel="stylesheet" href="css/style.css">
-    <link rel="stylesheet" href="css/dashboard.css">
-    <link rel="stylesheet" href="css/calendar.css">
-    <link rel="stylesheet" href="css/settings.css">
-    <link rel="stylesheet" href="css/themes.css">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <!-- App Shell -->
-    <div class="app">
+<div class="app">
 
-        <!-- Top Navigation -->
-        <header class="topbar">
+    <!-- Top Bar -->
+    <header class="topbar">
 
-            <div class="logo-section">
-                <div class="logo"></div>
-                <span class="app-name">CalendarBee</span>
+        <div class="brand">
+            <div class="logo"></div>
+            <span>CalendarBee</span>
+        </div>
+
+        <div class="top-actions">
+
+            <button class="icon-button">
+                <svg viewBox="0 0 24 24">
+                    <path d="M21 21L16.65 16.65" stroke="currentColor" stroke-width="2" fill="none"/>
+                    <circle cx="10" cy="10" r="6" stroke="currentColor" stroke-width="2" fill="none"/>
+                </svg>
+            </button>
+
+            <button class="icon-button">
+                <svg viewBox="0 0 24 24">
+                    <circle cx="12" cy="8" r="4" fill="currentColor"/>
+                    <path d="M4 20c1-4 5-6 8-6s7 2 8 6" fill="currentColor"/>
+                </svg>
+            </button>
+
+        </div>
+
+    </header>
+
+    <!-- Main Content -->
+    <main class="main-content">
+
+        <!-- Dashboard Screen -->
+        <section id="dashboardScreen" class="screen active">
+
+            <div class="card welcome-card">
+
+                <h1 id="welcomeName">
+                    Welcome Back
+                </h1>
+
+                <p>
+                    Here's your schedule overview.
+                </p>
+
             </div>
 
-            <div class="header-actions">
+            <div class="card">
 
-                <button class="icon-btn" id="searchBtn">
-                    <img src="assets/icons/search.svg" alt="Search">
+                <h2>Upcoming Event</h2>
+
+                <div class="event-preview">
+
+                    <span class="event-dot event-blue"></span>
+
+                    <div>
+                        <strong>No upcoming events</strong>
+                        <p>Create your first event</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <h2>Upcoming Birthdays</h2>
+
+                <div id="birthdayPreview">
+                    No birthdays added.
+                </div>
+
+            </div>
+
+            <div class="card">
+
+                <h2>Tasks</h2>
+
+                <div id="taskPreview">
+                    No active tasks.
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Calendar Screen -->
+        <section id="calendarScreen" class="screen">
+
+            <div class="calendar-toolbar">
+
+                <button id="prevMonth" class="toolbar-btn">
+
+                    <svg viewBox="0 0 24 24">
+                        <path d="M15 18L9 12L15 6"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              fill="none"/>
+                    </svg>
+
                 </button>
 
-                <button class="icon-btn" id="profileBtn">
-                    <img src="assets/icons/profile.svg" alt="Profile">
+                <h2 id="monthLabel">
+                    June 2026
+                </h2>
+
+                <button id="nextMonth" class="toolbar-btn">
+
+                    <svg viewBox="0 0 24 24">
+                        <path d="M9 18L15 12L9 6"
+                              stroke="currentColor"
+                              stroke-width="2"
+                              fill="none"/>
+                    </svg>
+
                 </button>
 
             </div>
 
-        </header>
+            <div class="calendar-card">
 
-        <!-- Main Content -->
-        <main class="main-content">
+                <div class="weekdays">
 
-            <!-- Dashboard -->
-            <section class="screen active" id="dashboardScreen">
-
-                <div class="welcome-card card">
-
-                    <h1 id="welcomeText">
-                        Welcome Back
-                    </h1>
-
-                    <p>
-                        Here's your schedule overview.
-                    </p>
+                    <div>Mon</div>
+                    <div>Tue</div>
+                    <div>Wed</div>
+                    <div>Thu</div>
+                    <div>Fri</div>
+                    <div>Sat</div>
+                    <div>Sun</div>
 
                 </div>
 
-                <div class="card">
+                <div id="calendarGrid">
 
-                    <h2>Upcoming Event</h2>
+                    <!-- Generated by script.js -->
 
-                    <div class="event-preview">
+                </div>
 
-                        <div class="event-color blue"></div>
+            </div>
 
-                        <div>
-                            <strong>No upcoming events</strong>
-                            <p>Create your first event</p>
-                        </div>
+            <div id="dayDetails" class="card">
+
+                <h3>Selected Day</h3>
+
+                <div id="selectedDayEvents">
+
+                    No events.
+
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Tasks Screen -->
+        <section id="tasksScreen" class="screen">
+
+            <div class="card">
+
+                <h2>Tasks</h2>
+
+                <div id="taskList">
+                    No tasks available.
+                </div>
+
+            </div>
+
+        </section>
+
+        <!-- Profile Screen -->
+        <section id="profileScreen" class="screen">
+
+            <div class="card">
+
+                <div class="profile-header">
+
+                    <div id="profileAvatar">
+                        C
+                    </div>
+
+                    <div>
+
+                        <h2 id="profileName">
+                            CalendarBee User
+                        </h2>
+
+                        <p>
+                            Personal Calendar
+                        </p>
 
                     </div>
 
                 </div>
 
-                <div class="card">
+            </div>
 
-                    <h2>Upcoming Birthdays</h2>
+            <div class="card">
 
-                    <div id="birthdayPreview">
-                        No birthdays added.
-                    </div>
+                <label>Display Name</label>
 
-                </div>
+                <input
+                    id="nameInput"
+                    type="text"
+                    placeholder="Enter your name">
 
-                <div class="card">
+                <button id="saveProfileBtn">
+                    Save Profile
+                </button>
 
-                    <h2>Tasks</h2>
+            </div>
 
-                    <div id="taskPreview">
-                        No active tasks.
-                    </div>
+        </section>
 
-                </div>
+        <!-- Settings Screen -->
+        <section id="settingsScreen" class="screen">
 
-            </section>
+            <div class="settings-layout">
 
-            <!-- Calendar -->
-            <section class="screen" id="calendarScreen">
+                <aside class="settings-sidebar">
 
-                <div class="calendar-header">
-
-                    <button id="prevMonth" class="nav-arrow">
-                        <img src="assets/icons/chevron-left.svg" alt="">
+                    <button class="settings-tab active">
+                        General
                     </button>
 
-                    <h2 id="monthLabel">
-                        June 2026
-                    </h2>
-
-                    <button id="nextMonth" class="nav-arrow">
-                        <img src="assets/icons/chevron-right.svg" alt="">
+                    <button class="settings-tab">
+                        Appearance
                     </button>
 
-                </div>
-
-                <div class="calendar-container">
-
-                    <div class="weekdays">
-                        <div>Mon</div>
-                        <div>Tue</div>
-                        <div>Wed</div>
-                        <div>Thu</div>
-                        <div>Fri</div>
-                        <div>Sat</div>
-                        <div>Sun</div>
-                    </div>
-
-                    <div id="calendarGrid">
-                        <!-- Generated by calendar.js -->
-                    </div>
-
-                </div>
-
-            </section>
-
-            <!-- Tasks -->
-            <section class="screen" id="tasksScreen">
-
-                <div class="card">
-
-                    <h2>Tasks</h2>
-
-                    <div id="taskList">
-                        No tasks available.
-                    </div>
-
-                </div>
-
-            </section>
-
-            <!-- Profile -->
-            <section class="screen" id="profileScreen">
-
-                <div class="card">
-
-                    <div class="profile-header">
-
-                        <div id="profileAvatar">
-                            C
-                        </div>
-
-                        <div>
-
-                            <h2 id="profileName">
-                                CalendarBee User
-                            </h2>
-
-                            <p>
-                                Personal Calendar
-                            </p>
-
-                        </div>
-
-                    </div>
-
-                </div>
-
-                <div class="card">
-
-                    <label>Name</label>
-
-                    <input
-                        type="text"
-                        id="nameInput"
-                        placeholder="Enter name">
-
-                    <button id="saveProfileBtn">
-                        Save Profile
+                    <button class="settings-tab">
+                        Calendar
                     </button>
 
-                </div>
+                    <button class="settings-tab">
+                        Notifications
+                    </button>
 
-            </section>
+                    <button class="settings-tab">
+                        Storage
+                    </button>
 
-            <!-- Settings -->
-            <section class="screen" id="settingsScreen">
+                </aside>
 
-                <div class="settings-layout">
+                <div class="settings-panel">
 
-                    <aside class="settings-sidebar">
+                    <h2>Appearance</h2>
 
-                        <button class="settings-tab active">
-                            General
-                        </button>
+                    <div class="setting-row">
 
-                        <button class="settings-tab">
-                            Appearance
-                        </button>
+                        <span>Dark Mode</span>
 
-                        <button class="settings-tab">
-                            Calendar
-                        </button>
+                        <div class="toggle">
+                            <div class="toggle-thumb"></div>
+                        </div>
 
-                        <button class="settings-tab">
-                            Notifications
-                        </button>
+                    </div>
 
-                        <button class="settings-tab">
-                            Storage
-                        </button>
+                    <div class="setting-row">
 
-                    </aside>
+                        <span>Compact Mode</span>
 
-                    <div class="settings-panel">
+                        <div class="toggle">
+                            <div class="toggle-thumb"></div>
+                        </div>
 
-                        <h2>Appearance</h2>
+                    </div>
 
-                        <div class="setting-row">
+                    <div class="setting-row">
 
-                            <span>Dark Mode</span>
+                        <span>Default View</span>
 
-                            <div class="toggle">
-                                <div class="toggle-thumb"></div>
-                            </div>
+                        <div class="custom-dropdown">
+
+                            <span>Month View</span>
+
+                            <svg viewBox="0 0 24 24">
+                                <path d="M6 9L12 15L18 9"
+                                      stroke="currentColor"
+                                      stroke-width="2"
+                                      fill="none"/>
+                            </svg>
 
                         </div>
 
-                        <div class="setting-row">
+                    </div>
 
-                            <span>Compact View</span>
+                    <div class="setting-row">
 
-                            <div class="toggle">
-                                <div class="toggle-thumb"></div>
-                            </div>
+                        <span>Notifications</span>
 
-                        </div>
-
-                        <div class="setting-row">
-
-                            <span>Theme</span>
-
-                            <div class="custom-select">
-
-                                <div class="selected-option">
-                                    Honey Gold
-                                </div>
-
-                            </div>
-
+                        <div class="toggle active">
+                            <div class="toggle-thumb"></div>
                         </div>
 
                     </div>
 
                 </div>
 
-            </section>
+            </div>
 
-        </main>
+        </section>
 
-        <!-- Floating Add Button -->
-        <button id="fab">
+    </main>
 
-            <img src="assets/icons/plus.svg" alt="Add">
+    <!-- Floating Action Button -->
+    <button id="fab">
 
-        </button>
+        <svg viewBox="0 0 24 24">
+            <path d="M12 5V19M5 12H19"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  fill="none"/>
+        </svg>
 
-        <!-- Bottom Navigation -->
-        <nav class="bottom-nav">
+    </button>
 
-            <button class="nav-item active" data-screen="dashboardScreen">
+    <!-- Add Menu -->
+    <div id="addMenu" class="modal hidden">
 
-                <img src="assets/icons/home.svg" alt="">
-                <span>Home</span>
+        <div class="modal-content">
 
+            <h2>Create</h2>
+
+            <button class="create-option">
+                Event
             </button>
 
-            <button class="nav-item" data-screen="calendarScreen">
-
-                <img src="assets/icons/calendar.svg" alt="">
-                <span>Calendar</span>
-
+            <button class="create-option">
+                Birthday
             </button>
 
-            <button class="nav-item" data-screen="tasksScreen">
-
-                <img src="assets/icons/task.svg" alt="">
-                <span>Tasks</span>
-
+            <button class="create-option">
+                Reminder
             </button>
 
-            <button class="nav-item" data-screen="profileScreen">
-
-                <img src="assets/icons/profile.svg" alt="">
-                <span>Profile</span>
-
+            <button class="create-option">
+                Task
             </button>
 
-            <button class="nav-item" data-screen="settingsScreen">
-
-                <img src="assets/icons/settings.svg" alt="">
-                <span>Settings</span>
-
+            <button class="create-option">
+                Holiday
             </button>
 
-        </nav>
+        </div>
 
     </div>
 
-    <!-- Scripts -->
-    <script src="js/storage.js"></script>
-    <script src="js/profile.js"></script>
-    <script src="js/calendar.js"></script>
-    <script src="js/events.js"></script>
-    <script src="js/settings.js"></script>
-    <script src="js/ui.js"></script>
-    <script src="js/app.js"></script>
+    <!-- Bottom Navigation -->
+    <nav class="bottom-nav">
+
+        <button class="nav-item active"
+                data-screen="dashboardScreen">
+
+            <svg viewBox="0 0 24 24">
+                <path d="M3 10L12 3L21 10V21H3Z"
+                      fill="currentColor"/>
+            </svg>
+
+            <span>Home</span>
+
+        </button>
+
+        <button class="nav-item"
+                data-screen="calendarScreen">
+
+            <svg viewBox="0 0 24 24">
+                <rect x="4" y="5"
+                      width="16"
+                      height="15"
+                      rx="2"
+                      fill="currentColor"/>
+            </svg>
+
+            <span>Calendar</span>
+
+        </button>
+
+        <button class="nav-item"
+                data-screen="tasksScreen">
+
+            <svg viewBox="0 0 24 24">
+                <path d="M8 7H20M8 12H20M8 17H20"
+                      stroke="currentColor"
+                      stroke-width="2"/>
+                <circle cx="4" cy="7" r="1.5"
+                        fill="currentColor"/>
+                <circle cx="4" cy="12" r="1.5"
+                        fill="currentColor"/>
+                <circle cx="4" cy="17" r="1.5"
+                        fill="currentColor"/>
+            </svg>
+
+            <span>Tasks</span>
+
+        </button>
+
+        <button class="nav-item"
+                data-screen="profileScreen">
+
+            <svg viewBox="0 0 24 24">
+                <circle cx="12"
+                        cy="8"
+                        r="4"
+                        fill="currentColor"/>
+                <path d="M4 20C5 16 8 14 12 14C16 14 19 16 20 20"
+                      fill="currentColor"/>
+            </svg>
+
+            <span>Profile</span>
+
+        </button>
+
+        <button class="nav-item"
+                data-screen="settingsScreen">
+
+            <svg viewBox="0 0 24 24">
+                <circle cx="12"
+                        cy="12"
+                        r="3"
+                        fill="currentColor"/>
+                <path d="M12 2V5M12 19V22M2 12H5M19 12H22"
+                      stroke="currentColor"
+                      stroke-width="2"/>
+            </svg>
+
+            <span>Settings</span>
+
+        </button>
+
+    </nav>
+
+</div>
+
+<script src="script.js"></script>
 
 </body>
 </html>
